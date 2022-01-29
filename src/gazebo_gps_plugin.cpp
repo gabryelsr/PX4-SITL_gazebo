@@ -222,8 +222,12 @@ void GpsPlugin::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
 void GpsPlugin::OnWorldUpdate(const common::UpdateInfo& /*_info*/)
 {
   // Store the pointer to the model.
-  if (model_ == NULL)
+ if (model_ == NULL)
+  #if GAZEBO_MAJOR_VERSION >= 9
     model_ = world_->ModelByName(model_name_);
+  #else
+    model_ = world_->GetModel(model_name_);
+  #endif
 
 #if GAZEBO_MAJOR_VERSION >= 9
   current_time_ = world_->SimTime();
